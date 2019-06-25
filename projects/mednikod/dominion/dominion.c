@@ -662,7 +662,7 @@ int baronAction(int currentPlayer, int doesDiscard, struct gameState *state) {
   return 0;
 }
 
-int minionAction(int currentPlayer, int getCoins, int discardHand, int j, struct gameState *state, int handPos) {
+int minionAction(int currentPlayer, int getCoins, int discardHand, struct gameState *state, int handPos) {
   //+1 action
   state->numActions++;
 
@@ -733,6 +733,66 @@ int mineAction(int currentPlayer, int trashTreasure, int gainTreasure, struct ga
   }
 
   return 0;
+}
+
+int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard, struct gameState *state, int handPos) {
+  if (secondTrashCard > 2 || secondTrashCard < 0)
+  {
+    return -1;
+  }
+
+  if (firstTrashCard == handPos)
+  {
+    return -1;
+  }
+  int i;
+  int j = 0;
+  for (i = 0; i < state->handCount[currentPlayer]; i++)
+  {
+    if (i != handPos && i == state->hand[currentPlayer][firstTrashCard] && i != firstTrashCard)
+    {
+      j++;
+    }
+  }
+  if (j < secondTrashCard)
+  {
+    return -1;
+  }
+
+  if (DEBUG)
+    printf("Player %d reveals card number: %d\n", currentPlayer, state->hand[currentPlayer][firstTrashCard]);
+
+  //increase supply count for choosen card by amount being discarded
+  state->supplyCount[state->hand[currentPlayer][firstTrashCard]] += secondTrashCard;
+
+  //each other player gains a copy of revealed card
+
+  for (i = 0; i < state->numPlayers; i++)
+  {
+    if (i != currentPlayer)
+    {
+      gainCard(state->hand[currentPlayer][firstTrashCard], state, 0, i);
+    }
+  }
+
+  //discard played card from hand
+  discardCard(handPos, currentPlayer, state, 0);
+
+  //trash copies of cards returned to supply
+  for (j = 0; j < secondTrashCard; j++)
+  {
+    for (i = 0; i < state->handCount[currentPlayer]; i++)
+    {
+      if (state->hand[currentPlayer][i] == state->hand[currentPlayer][firstTrashCard])
+      {
+        discardCard(i, currentPlayer, state, 1);
+        break;
+      }
+    }
+  }
+
+  return 0;
+
 }
 
 int drawCard(int player, struct gameState *state)
@@ -1041,7 +1101,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     return 0;
 
   case minion:
-    
+    return minionAction(currentPlayer, choice1, choice2, state, handPos);
 
   case steward:
     if (choice1 == 1)
