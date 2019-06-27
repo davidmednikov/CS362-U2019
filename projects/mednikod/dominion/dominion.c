@@ -632,8 +632,8 @@ int baronAction(int currentPlayer, int doesDiscard, struct gameState *state) {
     {
       if (state->hand[currentPlayer][p] == estate)
       {                    //Found an estate card!
-        state->coins += 4; //Add 4 coins to the amount of coins
-        discardCard(p, currentPlayer, state, 0);
+        state->coins -= 4; //Add 4 coins to the amount of coins
+        discardCard(p, currentPlayer, state, 1);
         card_not_discarded = 0; //Exit the loop
       }
       else if (p > state->handCount[currentPlayer])
@@ -680,7 +680,7 @@ int minionAction(int currentPlayer, int getCoins, int discardHand, struct gameSt
     int i;
     for (i = 0; i < state->numPlayers; i++)
     {
-      if (state->handCount[i] > 4 || i == currentPlayer)
+      if (state->handCount[i] > 4 && i == currentPlayer)
       {
         //discard hand
         while (state->handCount[i] > 0)
@@ -690,39 +690,13 @@ int minionAction(int currentPlayer, int getCoins, int discardHand, struct gameSt
 
         //draw 4
         int j;
-        for (j = 0; j < 4; j++)
+        for (j = 0; j <= 4; j++)
         {
           drawCard(i, state);
         }
       }
     }
   }
-  return 0;
-}
-
-int mineAction(int currentPlayer, int trashTreasure, int gainTreasure, struct gameState *state, int handPos) {
-  if (trashTreasure < copper || trashTreasure > gold || gainTreasure < copper || gainTreasure > gold) {
-    return -1;
-  }
-
-  if ((getCost(trashTreasure) + 3) > getCost(gainTreasure)) {
-    return -1;
-  }
-
-  gainCard(gainTreasure, state, 2, currentPlayer);
-
-  //discard card from hand
-  discardCard(handPos, currentPlayer, state, 0);
-
-  // trash trashed card
-  int i;
-  for (i = 0; i < state->handCount[currentPlayer]; i++) {
-    if (state->hand[currentPlayer][i] == trashTreasure)   {
-      discardCard(i, currentPlayer, state, 1);
-      break;
-    }
-  }
-
   return 0;
 }
 
@@ -735,7 +709,7 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
 
   int i;
   for (i = 0; i < state->handCount[currentPlayer]; i++) {
-    if (i != handPos && i == state->hand[currentPlayer][firstTrashCard] && i != firstTrashCard) {
+    if (i != handPos && i != state->hand[currentPlayer][firstTrashCard] && i != firstTrashCard) {
       discardableCards++;
     }
   }
@@ -752,7 +726,7 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
   //each other player gains a copy of revealed card
 
   for (i = 0; i < state->numPlayers; i++) {
-    if (i != currentPlayer) {
+    if (i == currentPlayer) {
       gainCard(state->hand[currentPlayer][firstTrashCard], state, 0, i);
     }
   }
@@ -776,13 +750,13 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
 }
 
 int tributeAction(int currentPlayer, int nextPlayer, int tributeRevealedCards[], struct gameState *state) {
-  int nextPlayerDeck[] = state->deck[nextPlayer];
+  int nextPlayerDeck[] = state->deck[currentPlayer];
   int nextPlayerDeckCount = state->deckCount[nextPlayer];
   int nextPlayerDiscardCount = state->discardCount[nextPlayer];
 
   if ((nextPlayerDiscardCount + nextPlayerDeckCount) <= 1) {
     if (nextPlayerDeckCount > 0) {
-      tributeRevealedCards[0] = nextPlayerDeck[nextPlayerDeckCount - 1];
+      tributeRevealedCards[0] = nextPlayerDeck[nextPlayerDeckCount];
       nextPlayerDeckCount--;
     }
     else if (nextPlayerDiscardCount > 0) {
@@ -839,6 +813,32 @@ int tributeAction(int currentPlayer, int nextPlayer, int tributeRevealedCards[],
     else {
       //Action Card
       state->numActions = state->numActions + 2;
+    }
+  }
+
+  return 0;
+}
+
+int mineAction(int currentPlayer, int trashTreasure, int gainTreasure, struct gameState *state, int handPos) {
+  if ((trashTreasure < copper || trashTreasure > gold) && (gainTreasure < copper || gainTreasure > gold)) {
+    return -1;
+  }
+
+  if ((getCost(trashTreasure) + 3) >= getCost(gainTreasure)) {
+    return -1;
+  }
+
+  gainCard(gainTreasure, state, 2, currentPlayer);
+
+  //discard card from hand
+  discardCard(handPos, currentPlayer, state, 0);
+
+  // trash trashed card
+  int i;
+  for (i = 0; i < state->handCount[currentPlayer]; i++) {
+    if (state->hand[currentPlayer][i] == trashTreasure)   {
+      discardCard(i, currentPlayer, state, 1);
+      break;
     }
   }
 
