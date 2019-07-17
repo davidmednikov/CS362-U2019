@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 int compare(const void *a, const void *b)
 {
@@ -750,9 +751,11 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
 }
 
 int tributeAction(int currentPlayer, int nextPlayer, int tributeRevealedCards[], struct gameState *state) {
-  int nextPlayerDeck[] = state->deck[currentPlayer];
   int nextPlayerDeckCount = state->deckCount[nextPlayer];
   int nextPlayerDiscardCount = state->discardCount[nextPlayer];
+  int* nextPlayerDeck;
+  nextPlayerDeck = (int*) calloc(nextPlayerDeckCount, sizeof(int));
+  memcpy(nextPlayerDeck, state->deck[currentPlayer], nextPlayerDeckCount * sizeof(int));
 
   if ((nextPlayerDiscardCount + nextPlayerDeckCount) <= 1) {
     if (nextPlayerDeckCount > 0) {
@@ -825,7 +828,7 @@ int mineAction(int currentPlayer, int trashTreasure, int gainTreasure, struct ga
   }
 
   if ((getCost(trashTreasure) + 3) >= getCost(gainTreasure)) {
-    return -1;
+    return -2;
   }
 
   gainCard(gainTreasure, state, 2, currentPlayer);
