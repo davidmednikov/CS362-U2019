@@ -77,7 +77,7 @@ int main() {
 #if (NOISY_TEST == 1)
     printf("expected nextPlayer discardCard = council_room %d, actual nextPlayer discardCard = %d\n", council_room, state.discard[nextPlayer][0]);
 #endif
-    assertTrue(state.discardCount[nextPlayer] == 1);
+    assertTrue(state.discard[nextPlayer][0] == council_room);
 
 #if (NOISY_TEST == 1)
     printf("expected numActions = %d, actual numActions = %d\n", numActions + 2, state.numActions);
@@ -130,7 +130,7 @@ int main() {
     result = initializeGame(numPlayer, kingdoms, seed, &state); // initialize a new game
     state.deckCount[nextPlayer] = 2;
     state.discardCount[nextPlayer] = 0;
-    tributeRevealedCards[0] = gold;
+    tributeRevealedCards[0] = estate;
     tributeRevealedCards[1] = sea_hag;
     numActions = state.numActions;
     numCards = state.handCount[currentPlayer];
@@ -147,9 +147,9 @@ int main() {
     assertTrue(state.discardCount[nextPlayer] == 2);
 
 #if (NOISY_TEST == 1)
-    printf("expected currentPlayer deckCount = %d, actual nextPlayer deckCount = %d\n", numCards + 2, state.deckCount[currentPlayer]);
+    printf("expected currentPlayer handCount = %d, actual nextPlayer handCount = %d\n", numCards + 2, state.handCount[currentPlayer]);
 #endif
-    assertTrue(state.deckCount[currentPlayer] == numCards + 2);
+    assertTrue(state.handCount[currentPlayer] == numCards + 2);
 
 #if (NOISY_TEST == 1)
     printf("expected numActions = %d, actual numActions = %d\n", numActions + 2, state.numActions);
