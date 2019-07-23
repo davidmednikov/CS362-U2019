@@ -130,4 +130,17 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 /* Set array position of each player who won (remember ties!) to
    1, others to 0 */
 
+void gainSupplyCard(int currentPlayer, struct gameState *state);
+int baronAction(int currentPlayer, int doesDiscard, struct gameState *state);
+int minionAction(int currentPlayer, int getCoins, int discardHand, struct gameState *state, int handPos);
+int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard, struct gameState *state, int handPos);
+int tributeAction(int currentPlayer, int nextPlayer, int tributeRevealedCards[], struct gameState *state);
+int mineAction(int currentPlayer, int trashTreasure, int gainTreasure, struct gameState *state, int handPos);
+int drawCard(int player, struct gameState *state);
+int getCost(int cardNumber);
+int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag);
+int gainCard(int supplyPos, struct gameState *state, int toFlag, int player);
+int updateCoins(int player, struct gameState *state, int bonus);
+
 #endif

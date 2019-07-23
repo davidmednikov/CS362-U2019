@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 int compare(const void *a, const void *b)
 {
@@ -700,8 +701,8 @@ int minionAction(int currentPlayer, int getCoins, int discardHand, struct gameSt
   return 0;
 }
 
-int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard, struct gameState *state, int handPos) {
-  if (firstTrashCard == handPos || secondTrashCard > 2 || secondTrashCard < 0) {
+int ambassadorAction(int currentPlayer, int cardToDiscard, int copiesToDiscard, struct gameState *state, int handPos) {
+  if (cardToDiscard == handPos || copiesToDiscard > 2 || copiesToDiscard < 0) {
     return -1;
   }
 
@@ -709,25 +710,25 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
 
   int i;
   for (i = 0; i < state->handCount[currentPlayer]; i++) {
-    if (i != handPos && i != state->hand[currentPlayer][firstTrashCard] && i != firstTrashCard) {
+    if (i != handPos && i != state->hand[currentPlayer][cardToDiscard] && i != cardToDiscard) {
       discardableCards++;
     }
   }
-  if (discardableCards < secondTrashCard) {
+  if (discardableCards < copiesToDiscard) {
     return -1;
   }
 
   if (DEBUG)
-    printf("Player %d reveals card number: %d\n", currentPlayer, state->hand[currentPlayer][firstTrashCard]);
+    printf("Player %d reveals card number: %d\n", currentPlayer, state->hand[currentPlayer][cardToDiscard]);
 
   //increase supply count for choosen card by amount being discarded
-  state->supplyCount[state->hand[currentPlayer][firstTrashCard]] += secondTrashCard;
+  state->supplyCount[state->hand[currentPlayer][cardToDiscard]] += copiesToDiscard;
 
   //each other player gains a copy of revealed card
 
   for (i = 0; i < state->numPlayers; i++) {
     if (i == currentPlayer) {
-      gainCard(state->hand[currentPlayer][firstTrashCard], state, 0, i);
+      gainCard(state->hand[currentPlayer][cardToDiscard], state, 0, i);
     }
   }
 
@@ -736,9 +737,9 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
 
   //trash copies of cards returned to supply
   int j;
-  for (j = 0; j < secondTrashCard; j++) {
+  for (j = 0; j < copiesToDiscard; j++) {
     for (i = 0; i < state->handCount[currentPlayer]; i++) {
-      if (state->hand[currentPlayer][i] == state->hand[currentPlayer][firstTrashCard]) {
+      if (state->hand[currentPlayer][i] == state->hand[currentPlayer][cardToDiscard]) {
         discardCard(i, currentPlayer, state, 1);
         break;
       }
@@ -750,9 +751,11 @@ int ambassadorAction(int currentPlayer, int firstTrashCard, int secondTrashCard,
 }
 
 int tributeAction(int currentPlayer, int nextPlayer, int tributeRevealedCards[], struct gameState *state) {
-  int nextPlayerDeck[] = state->deck[currentPlayer];
   int nextPlayerDeckCount = state->deckCount[nextPlayer];
   int nextPlayerDiscardCount = state->discardCount[nextPlayer];
+  int* nextPlayerDeck;
+  nextPlayerDeck = (int*) calloc(nextPlayerDeckCount, sizeof(int));
+  memcpy(nextPlayerDeck, state->deck[currentPlayer], nextPlayerDeckCount * sizeof(int));
 
   if ((nextPlayerDiscardCount + nextPlayerDeckCount) <= 1) {
     if (nextPlayerDeckCount > 0) {
@@ -824,8 +827,8 @@ int mineAction(int currentPlayer, int trashTreasure, int gainTreasure, struct ga
     return -1;
   }
 
-  if ((getCost(trashTreasure) + 3) >= getCost(gainTreasure)) {
-    return -1;
+  if (getCost(trashTreasure) + 3 <= getCost(gainTreasure)) {
+    return -2;
   }
 
   gainCard(gainTreasure, state, 2, currentPlayer);
