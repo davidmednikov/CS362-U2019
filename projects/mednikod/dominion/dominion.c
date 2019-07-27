@@ -612,9 +612,9 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state)
   return 0;
 }
 
-void gainSupplyCard(int currentPlayer, struct gameState *state) {
+void gainEstateCard(int currentPlayer, struct gameState *state) {
   if (supplyCount(estate, state) > 0) {
-    gainCard(estate, state, 0, currentPlayer);
+    gainCard(estate, state, 2, currentPlayer);
     state->supplyCount[estate]--; //Decrement estates
     if (supplyCount(estate, state) == 0)
     {
@@ -644,7 +644,7 @@ int baronAction(int currentPlayer, int doesDiscard, struct gameState *state) {
           printf("No estate cards in your hand, invalid choice\n");
           printf("Must gain an estate if there are any\n");
         }
-        gainSupplyCard(currentPlayer, state);
+        gainEstateCard(currentPlayer, state);
         card_not_discarded = 0; //Exit the loop
       }
 
@@ -657,7 +657,7 @@ int baronAction(int currentPlayer, int doesDiscard, struct gameState *state) {
 
   else
   {
-    gainSupplyCard(currentPlayer, state);
+    gainEstateCard(currentPlayer, state);
   }
 
   return 0;

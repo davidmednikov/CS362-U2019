@@ -29,6 +29,7 @@ int main() {
     for (i = -2000; i < 2000; i++) {
         int seed, numPlayers;
         int kingdoms[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int kingdomsAdded = 0;
         int result, currentPlayer, numBuys, numCoins, handCount;
         bool doesDiscard;
         struct gameState state;
@@ -42,20 +43,36 @@ int main() {
         if (seed != -1) {
             seed = rand() % 1000000; // 2/3 of the time, pick a random seed  between 0 and 999,999
         }
-        numPlayers = (rand() % MAX_PLAYERS) + 1;
+        numPlayers = (rand() % (MAX_PLAYERS - 1)) + 2;
         for (j = 0; j < 10; j++) {
-            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive
-            kingdoms[j] = kingdomCard;
+            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive]
+            if (kingdomsAdded == 0) {
+                kingdoms[j] = kingdomCard;
+                kingdomsAdded = 1;
+            } else {
+                int k;
+                bool exists = false;
+                do {
+                    exists = false;
+                    for (k = 0; k < kingdomsAdded; k++) {
+                        if (kingdoms[k] == kingdomCard) {
+                            exists = true;
+                            kingdomCard = ((rand() % 20) + 7);
+                            break;
+                        }
+                    }
+                } while (exists == true);
+                kingdoms[j] = kingdomCard;
+                kingdomsAdded++;
+            }
         }
-        currentPlayer = rand() % numPlayers;
+        currentPlayer = 0;
         memset(&state, 23, sizeof(struct gameState));   // clear the game state
         result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
         doesDiscard = true;
         numBuys = state.numBuys;
         numCoins = state.coins;
-        if (state.handCount[currentPlayer] <  2) {
-            state.handCount[currentPlayer] = 2;
-        };
+        state.handCount[currentPlayer] = 2;
         handCount = state.handCount[currentPlayer];
         state.hand[currentPlayer][0] = baron;
         state.hand[currentPlayer][1] = estate;
@@ -89,20 +106,37 @@ int main() {
         if (seed != -1) {
             seed = rand() % 1000000; // 2/3 of the time, pick a random seed  between 0 and 999,999
         }
-        numPlayers = (rand() % MAX_PLAYERS) + 1;
+        numPlayers = (rand() % (MAX_PLAYERS - 1)) + 2;
+        kingdomsAdded = 0;
         for (j = 0; j < 10; j++) {
-            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive
-            kingdoms[j] = kingdomCard;
+            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive]
+            if (kingdomsAdded == 0) {
+                kingdoms[j] = kingdomCard;
+                kingdomsAdded = 1;
+            } else {
+                int k;
+                bool exists = false;
+                do {
+                    exists = false;
+                    for (k = 0; k < kingdomsAdded; k++) {
+                        if (kingdoms[k] == kingdomCard) {
+                            exists = true;
+                            kingdomCard = ((rand() % 20) + 7);
+                            break;
+                        }
+                    }
+                } while (exists == true);
+                kingdoms[j] = kingdomCard;
+                kingdomsAdded++;
+            }
         }
-        currentPlayer = rand() % numPlayers;
+        currentPlayer = 0;
 
         memset(&state, 23, sizeof(struct gameState));   // clear the game state
         result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
         doesDiscard = true;
         numBuys = state.numBuys;
-        if (state.handCount[currentPlayer] <  1) {
-            state.handCount[currentPlayer] = 1;
-        };
+        state.handCount[currentPlayer] = 1;
         handCount = state.handCount[currentPlayer];
         state.hand[currentPlayer][0] = baron;
         result = baronAction(currentPlayer, doesDiscard, &state);
@@ -137,19 +171,39 @@ int main() {
         if (seed != -1) {
             seed = rand() % 1000000; // 2/3 of the time, pick a random seed  between 0 and 999,999
         }
-        numPlayers = (rand() % MAX_PLAYERS) + 1;
+        numPlayers = (rand() % (MAX_PLAYERS - 1)) + 2;
+        kingdomsAdded = 0;
         for (j = 0; j < 10; j++) {
-            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive
-            kingdoms[j] = kingdomCard;
+            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive]
+            if (kingdomsAdded == 0) {
+                kingdoms[j] = kingdomCard;
+                kingdomsAdded = 1;
+            } else {
+                int k;
+                bool exists = false;
+                do {
+                    exists = false;
+                    for (k = 0; k < kingdomsAdded; k++) {
+                        if (kingdoms[k] == kingdomCard) {
+                            exists = true;
+                            kingdomCard = ((rand() % 20) + 7);
+                            break;
+                        }
+                    }
+                } while (exists == true);
+                kingdoms[j] = kingdomCard;
+                kingdomsAdded++;
+            }
         }
-        currentPlayer = rand() % numPlayers;
+        currentPlayer = 0;
 
         memset(&state, 23, sizeof(struct gameState));   // clear the game state
         result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
         doesDiscard = false;
         numBuys = state.numBuys;
-        handCount = state.handCount[currentPlayer];
         state.hand[currentPlayer][0] = baron;
+        state.handCount[currentPlayer] = 1;
+        handCount = state.handCount[currentPlayer];
         result = baronAction(currentPlayer, doesDiscard, &state);
 
 #if (NOISY_TEST == 1)
@@ -166,7 +220,7 @@ int main() {
         printf("expected last card is estate card = %d, actual last card = %d\n", estate,
             state.hand[currentPlayer][state.handCount[currentPlayer] - 1]);
 #endif
-        assertTrue(estate == state.hand[currentPlayer][state.hand[currentPlayer][state.handCount[currentPlayer] - 1]]); // check if the return value is correct
+        assertTrue(estate == state.hand[currentPlayer][state.handCount[currentPlayer] - 1]);
 
 #if (NOISY_TEST == 1)
         printf("baronAction returned = %d, expected = 0\n", result);
