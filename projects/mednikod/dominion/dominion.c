@@ -754,7 +754,7 @@ int tributeAction(int currentPlayer, int nextPlayer, int tributeRevealedCards[],
   int nextPlayerDeckCount = state->deckCount[nextPlayer];
   int nextPlayerDiscardCount = state->discardCount[nextPlayer];
   int* nextPlayerDeck;
-  nextPlayerDeck = (int*) calloc(nextPlayerDeckCount, sizeof(int));
+  nextPlayerDeck = (int*) calloc(100, sizeof(int));
   memcpy(nextPlayerDeck, state->deck[currentPlayer], nextPlayerDeckCount * sizeof(int));
 
   if ((nextPlayerDiscardCount + nextPlayerDeckCount) <= 1) {
