@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<time.h>
 
+# define PRINT_STUFF 0
+
 char inputChar()
 {
     return rand() % 128;
@@ -10,12 +12,17 @@ char inputChar()
 
 char *inputString()
 {
+    int shouldWeQuit = rand() % 1000000;
+    if (shouldWeQuit == 999999) {
+      return "reset";
+    }
     int stringLength = rand() % 256;
     char* theString = (char*) calloc(stringLength, sizeof(char));
     int i;
     for (i = 0; i < stringLength; i++) {
       theString[i] = inputChar();
     }
+
     return theString;
 }
 
@@ -30,7 +37,10 @@ void testme()
     tcCount++;
     c = inputChar();
     s = inputString();
+
+#if (PRINT_STUFF == 1)
     printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
+#endif
 
     if (c == '[' && state == 0) state = 1;
     if (c == '(' && state == 1) state = 2;
