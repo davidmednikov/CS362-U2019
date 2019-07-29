@@ -33,7 +33,7 @@ int main() {
         int oldCount[4] = {0, 0, 0, 0};
         int kingdomsAdded = 0;
         int result, currentPlayer, numActions, numCoins, handCount;
-        bool getCoins, discardHand;
+        bool getCoins, discardHand, exists;
         struct gameState state;
 
         printf ("TESTING minionAction():\n");
@@ -49,8 +49,6 @@ int main() {
                 kingdoms[j] = kingdomCard;
                 kingdomsAdded = 1;
             } else {
-                int k;
-                bool exists = false;
                 do {
                     exists = false;
                     for (k = 0; k < kingdomsAdded; k++) {
@@ -66,7 +64,14 @@ int main() {
             }
         }
 
+        memset(&state, 23, sizeof(struct gameState));   // clear the game state
+        result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
+
         currentPlayer = 0;
+        
+        numActions = state.numActions;
+        numCoins = state.coins;
+        handCount = state.handCount[currentPlayer];
 
         getCoins = rand() % 2;
         if (getCoins) {
@@ -74,12 +79,6 @@ int main() {
         } else {
             discardHand = true;
         }
-
-        memset(&state, 23, sizeof(struct gameState));   // clear the game state
-        result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
-        numActions = state.numActions;
-        numCoins = state.coins;
-        handCount = state.handCount[currentPlayer];
 
         if (discardHand) {
             for (j = currentPlayer; j < numPlayers; j++) {

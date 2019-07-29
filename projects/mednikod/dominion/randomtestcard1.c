@@ -25,13 +25,13 @@ void assertTrue(bool expression) {
 #define NOISY_TEST 0
 
 int main() {
-    int i, j;
+    int i, j, k;
     for (i = -2000; i < 2000; i++) {
         int seed, numPlayers;
         int kingdoms[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         int kingdomsAdded = 0;
         int result, currentPlayer, numBuys, numCoins, handCount;
-        bool doesDiscard, hasEstate;
+        bool doesDiscard, hasEstate, exists;
         struct gameState state;
 
         printf ("TESTING baronAction():\n");
@@ -42,13 +42,11 @@ int main() {
         }
         numPlayers = (rand() % (MAX_PLAYERS - 1)) + 2;
         for (j = 0; j < 10; j++) {
-            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive]
+            int kingdomCard = ((rand() % 20) + 7); // number between 7 and 26 inclusive
             if (kingdomsAdded == 0) {
                 kingdoms[j] = kingdomCard;
                 kingdomsAdded = 1;
             } else {
-                int k;
-                bool exists = false;
                 do {
                     exists = false;
                     for (k = 0; k < kingdomsAdded; k++) {
@@ -63,9 +61,11 @@ int main() {
                 kingdomsAdded++;
             }
         }
-        currentPlayer = 0;
+
         memset(&state, 23, sizeof(struct gameState));   // clear the game state
         result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
+
+        currentPlayer = 0;
 
         doesDiscard = rand() % 2; // randomize whether or not the player chooses to discard a card
         if (doesDiscard) {
@@ -102,6 +102,7 @@ int main() {
         numBuys = state.numBuys;
         numCoins = state.coins;
         handCount = state.handCount[currentPlayer];
+
         result = baronAction(currentPlayer, doesDiscard, &state);
 
 #if (NOISY_TEST == 1)
@@ -120,20 +121,20 @@ int main() {
 #if (NOISY_TEST == 1)
                 printf("expected coins = %d, actual coins = %d\n", numCoins + 4, state.coins);
 #endif
-                assertTrue(numCoins + 4 == state.coins); // check if the return value is correct
+                assertTrue(numCoins + 4 == state.coins);
 
         } else {
 
 #if (NOISY_TEST == 1)
                 printf("expected handCount = %d, actual handCount = %d\n", handCount, state.handCount[currentPlayer]);
 #endif
-                assertTrue(state.handCount[currentPlayer] == handCount); // check if the return value is correct
+                assertTrue(state.handCount[currentPlayer] == handCount);
 
 #if (NOISY_TEST == 1)
                 printf("expected last card is estate card = %d, actual last card = %d\n", estate,
                         state.hand[currentPlayer][state.handCount[currentPlayer] - 1]);
 #endif
-                assertTrue(estate == state.hand[currentPlayer][state.handCount[currentPlayer] - 1]); // check if the return value is correct
+                assertTrue(estate == state.hand[currentPlayer][state.handCount[currentPlayer] - 1]);
 
         }
 

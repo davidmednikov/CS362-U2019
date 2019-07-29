@@ -25,7 +25,7 @@ void assertTrue(bool expression) {
 #define NOISY_TEST 0
 
 int main() {
-    int i, j;
+    int i, j, k;
     for (i = -2000; i < 2000; i++) {
         int seed, numPlayers;
         int kingdoms[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -33,6 +33,7 @@ int main() {
         int result, currentPlayer, nextPlayer, numActions, numCoins, handCount;
         int nextPlayerDeckCount, nextPlayerDiscardCount;
         int tributeRevealedCards[2];
+        bool exists;
         struct gameState state;
 
         printf ("TESTING tributeAction():\n");
@@ -48,8 +49,6 @@ int main() {
                 kingdoms[j] = kingdomCard;
                 kingdomsAdded = 1;
             } else {
-                int k;
-                bool exists = false;
                 do {
                     exists = false;
                     for (k = 0; k < kingdomsAdded; k++) {
@@ -65,6 +64,9 @@ int main() {
             }
         }
 
+        memset(&state, 23, sizeof(struct gameState));   // clear the game state
+        result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
+
         currentPlayer = 0;
         nextPlayer = 1;
 
@@ -72,9 +74,6 @@ int main() {
         if (nextPlayerDeckCount <= 1) {
             nextPlayerDiscardCount = rand() % 2;
         }
-
-        memset(&state, 23, sizeof(struct gameState));   // clear the game state
-        result = initializeGame(numPlayers, kingdoms, seed, &state); // initialize a new game
 
         if (nextPlayerDeckCount == 0 && nextPlayerDiscardCount == 0) {
             state.deckCount[nextPlayer] = 0;
@@ -107,9 +106,6 @@ int main() {
         numCoins = state.coins;
         handCount = state.handCount[currentPlayer];
 
-        if (tests == 24167) {
-            printf("===================");
-        }
         result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
         int firstTribute = tributeRevealedCards[0];
@@ -186,6 +182,16 @@ int main() {
 #endif
                     assertTrue(state.discardCount[nextPlayer] == 2);
 
+#if (NOISY_TEST == 1)
+                    printf("expected nextPlayer 1st discardCard = %d, actual nextPlayer discardCard = %d\n", firstTribute, state.discard[nextPlayer][0]);
+#endif
+                    assertTrue(state.discard[nextPlayer][0] == firstTribute);
+
+#if (NOISY_TEST == 1)
+                    printf("expected nextPlayer 2nd discardCard = %d, actual nextPlayer discardCard = %d\n", secondTribute, state.discard[nextPlayer][0]);
+#endif
+                    assertTrue(state.discard[nextPlayer][1] == secondTribute);
+
                 } else {
 
 #if (NOISY_TEST == 1)
@@ -199,17 +205,17 @@ int main() {
 #endif
                     assertTrue(state.discardCount[nextPlayer] == nextPlayerDiscardCount + 2);
 
+#if (NOISY_TEST == 1)
+                    printf("expected nextPlayer 1st discardCard = %d, actual nextPlayer discardCard = %d\n", firstTribute, state.discard[nextPlayer][nextPlayerDiscardCount]);
+#endif
+                    assertTrue(state.discard[nextPlayer][nextPlayerDiscardCount] == firstTribute);
+
+#if (NOISY_TEST == 1)
+                    printf("expected nextPlayer 2nd discardCard = %d, actual nextPlayer discardCard = %d\n", secondTribute, state.discard[nextPlayer][nextPlayerDiscardCount + 1]);
+#endif
+                    assertTrue(state.discard[nextPlayer][nextPlayerDiscardCount + 1] == secondTribute);
+
                 }
-
-#if (NOISY_TEST == 1)
-                printf("expected nextPlayer 1st discardCard = %d, actual nextPlayer discardCard = %d\n", firstTribute, state.discard[nextPlayer][0]);
-#endif
-                assertTrue(state.discard[nextPlayer][0] == firstTribute);
-
-#if (NOISY_TEST == 1)
-                printf("expected nextPlayer 2nd discardCard = %d, actual nextPlayer discardCard = %d\n", secondTribute, state.discard[nextPlayer][0]);
-#endif
-                assertTrue(state.discard[nextPlayer][1] == secondTribute);
 
             } else { // 2 cards to discard that are the same
 
