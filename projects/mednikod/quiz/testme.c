@@ -3,20 +3,41 @@
 #include<stdlib.h>
 #include<time.h>
 
-# define PRINT_STUFF 0
-
 char inputChar()
 {
-    return rand() % 128;
+    int random = (rand() % 13) + 1;
+    if (random == 1) {
+      return ' ';
+    } else if (random == 2) {
+      return '(';
+    } else if (random == 3) {
+      return ')';
+    } else if (random == 4) {
+      return '[';
+    } else if (random == 5) {
+      return ']';
+    } else if (random == 6) {
+      return 'a';
+    } else if (random == 7) {
+      return 'e';
+    } else if (random == 8) {
+      return 'r';
+    } else if (random == 9) {
+      return 's';
+    } else if (random == 10) {
+      return 't';
+    } else if (random == 11) {
+      return 'x';
+    } else if (random == 12) {
+      return '{';
+    } else {
+      return '}';
+    }
 }
 
 char *inputString()
 {
-    int shouldWeQuit = rand() % 1000000;
-    if (shouldWeQuit == 999999) {
-      return "reset";
-    }
-    int stringLength = rand() % 256;
+    int stringLength = 5;
     char* theString = (char*) calloc(stringLength, sizeof(char));
     int i;
     for (i = 0; i < stringLength; i++) {
@@ -38,9 +59,7 @@ void testme()
     c = inputChar();
     s = inputString();
 
-#if (PRINT_STUFF == 1)
     printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
-#endif
 
     if (c == '[' && state == 0) state = 1;
     if (c == '(' && state == 1) state = 2;
