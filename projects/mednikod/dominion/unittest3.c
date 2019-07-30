@@ -85,9 +85,9 @@ int main() {
     assertTrue(numBuys + 1 == state.numBuys); // check if the return value is correct
 
 #if (NOISY_TEST == 1)
-    printf("expected handCount = 2, actual handCount = %d\n", state.handCount[currentPlayer]);
+    printf("expected handCount = 1, actual handCount = %d\n", state.handCount[currentPlayer]);
 #endif
-    assertTrue(state.handCount[currentPlayer] == 2); // check if the return value is correct
+    assertTrue(state.handCount[currentPlayer] == 1); // check if the return value is correct
 
 #if (NOISY_TEST == 1)
     printf("expected last card is estate card = %d, actual last card = %d\n", estate, state.hand[currentPlayer][1]);
