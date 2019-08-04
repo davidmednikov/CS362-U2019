@@ -899,7 +899,7 @@ int cardEffect_Tribute(int currentPlayer, int nextPlayer, struct gameState* stat
 	return 0;
 }
 
-cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
+int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
   int i;
   int j;
