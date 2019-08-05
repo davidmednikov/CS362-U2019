@@ -1,10 +1,10 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 # define MAX_PLAYERS 4
 
@@ -34,7 +34,7 @@ int main() {
         bool doesDiscard, hasEstate, exists;
         struct gameState state;
 
-        printf ("TESTING baronAction():\n");
+        printf ("TESTING cardEffect_Baron():\n");
 
         seed = (rand() % 3) - 1; // 1/3 of the time, the seed will be system TIME (-1)
         if (seed != -1) {
@@ -103,7 +103,7 @@ int main() {
         numCoins = state.coins;
         handCount = state.handCount[currentPlayer];
 
-        result = baronAction(currentPlayer, doesDiscard, &state);
+        result = cardEffect_Baron(currentPlayer, doesDiscard, &state);
 
 #if (NOISY_TEST == 1)
         printf("expected numBuys = %d, actual numBuys = %d\n", numBuys + 1, state.numBuys);
@@ -140,7 +140,7 @@ int main() {
 
 
 #if (NOISY_TEST == 1)
-        printf("baronAction returned = %d, expected = 0\n", result);
+        printf("cardEffect_Baron returned = %d, expected = 0\n", result);
 #endif
         assertTrue(result == 0); // check if the return value is correct
 

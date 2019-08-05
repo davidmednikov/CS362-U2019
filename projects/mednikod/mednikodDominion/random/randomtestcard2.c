@@ -1,10 +1,10 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 # define MAX_PLAYERS 4
 
@@ -36,7 +36,7 @@ int main() {
         bool getCoins, discardHand, exists;
         struct gameState state;
 
-        printf ("TESTING minionAction():\n");
+        printf ("TESTING cardEffect_Minion():\n");
 
         seed = (rand() % 3) - 1; // 1/3 of the time, the seed will be system TIME (-1)
         if (seed != -1) {
@@ -98,7 +98,7 @@ int main() {
             state.playedCardCount = 0;
         }
 
-        result = minionAction(currentPlayer, getCoins, discardHand, &state, 0);
+        result = cardEffect_Minion(currentPlayer, getCoins, discardHand, &state, 0);
 
         if (getCoins) {
 

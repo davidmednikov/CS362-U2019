@@ -1,9 +1,9 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 int failedTests = 0;
 int tests = 0;
@@ -30,7 +30,7 @@ int main() {
        , remodel, smithy, village, baron, great_hall};
     struct gameState state;
 
-    printf ("TESTING ambassadorAction():\n");
+    printf ("TESTING cardEffect_Ambassador():\n");
     currentPlayer = 0;
 
 #if (NOISY_TEST == 1)
@@ -42,9 +42,9 @@ int main() {
     state.hand[currentPlayer][0] = ambassador;
     cardToDiscard = 0;
     copiesToDiscard = 0;
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = -1\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = -1\n", result);
 #endif
     assertTrue(result == -1); // check if the return value is correct
 
@@ -59,9 +59,9 @@ int main() {
     state.hand[currentPlayer][1] = tribute;
     cardToDiscard = 1;
     copiesToDiscard = -1;
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = -1\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = -1\n", result);
 #endif
     assertTrue(result == -1); // check if the return value is correct
 
@@ -76,9 +76,9 @@ int main() {
     state.hand[currentPlayer][1] = tribute;
     cardToDiscard = 1;
     copiesToDiscard = 3;
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = -1\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = -1\n", result);
 #endif
     assertTrue(result == -1); // check if the return value is correct
 
@@ -93,9 +93,9 @@ int main() {
     state.hand[currentPlayer][1] = tribute;
     cardToDiscard = 1;
     copiesToDiscard = 2;
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = -1\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = -1\n", result);
 #endif
     assertTrue(result == -1); // check if the return value is correct
 
@@ -114,9 +114,9 @@ int main() {
     cardToDiscard = 1;
     copiesToDiscard = 0;
     supplyCount = state.supplyCount[tribute];
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = 0\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = 0\n", result);
 #endif
     assertTrue(result == 0); // check if the return value is correct
 
@@ -151,9 +151,9 @@ int main() {
     cardToDiscard = 1;
     copiesToDiscard = 1;
     supplyCount = state.supplyCount[tribute];
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = 0\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = 0\n", result);
 #endif
     assertTrue(result == 0); // check if the return value is correct
 
@@ -194,9 +194,9 @@ int main() {
     cardToDiscard = 1;
     copiesToDiscard = 2;
     supplyCount = state.supplyCount[tribute];
-    result = ambassadorAction(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
+    result = cardEffect_Ambassador(currentPlayer, cardToDiscard, copiesToDiscard, &state, 0);
 #if (NOISY_TEST == 1)
-    printf("ambassadorAction returned = %d, expected = 0\n", result);
+    printf("cardEffect_Ambassador returned = %d, expected = 0\n", result);
 #endif
     assertTrue(result == 0); // check if the return value is correct
 

@@ -1,9 +1,9 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 int failedTests = 0;
 int tests = 0;
@@ -31,7 +31,7 @@ int main() {
        , remodel, smithy, village, baron, great_hall};
     struct gameState state;
 
-    printf ("TESTING minionAction():\n");
+    printf ("TESTING cardEffect_Minion():\n");
 
     getCoins = true;
     discardHand = false;
@@ -46,7 +46,7 @@ int main() {
     int actions = state.numActions;
     int coins = state.coins;
     int cards = state.handCount[currentPlayer];
-    result = minionAction(currentPlayer, getCoins, discardHand, &state, 1);
+    result = cardEffect_Minion(currentPlayer, getCoins, discardHand, &state, 1);
 #if (NOISY_TEST == 1)
     printf("expected actions: %d, actual actions: %d\n", actions + 1, state.numActions);
 #endif
@@ -81,7 +81,7 @@ int main() {
     }
     getCoins = false;
     discardHand = true;
-    result = minionAction(currentPlayer, getCoins, discardHand, &state, 1);
+    result = cardEffect_Minion(currentPlayer, getCoins, discardHand, &state, 1);
 
     #if (NOISY_TEST == 1)
     printf("expected actions: %d, actual actions: %d\n", actions + 1, state.numActions);

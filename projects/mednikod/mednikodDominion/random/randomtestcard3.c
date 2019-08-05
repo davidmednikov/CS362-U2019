@@ -1,10 +1,10 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 # define MAX_PLAYERS 4
 
@@ -36,7 +36,7 @@ int main() {
         bool exists;
         struct gameState state;
 
-        printf ("TESTING tributeAction():\n");
+        printf ("TESTING cardEffect_Tribute():\n");
 
         seed = (rand() % 3) - 1; // 1/3 of the time, the seed will be system TIME (-1)
         if (seed != -1) {
@@ -106,7 +106,7 @@ int main() {
         numCoins = state.coins;
         handCount = state.handCount[currentPlayer];
 
-        result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+        result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
         int firstTribute = tributeRevealedCards[0];
         if (firstTribute != -1) {

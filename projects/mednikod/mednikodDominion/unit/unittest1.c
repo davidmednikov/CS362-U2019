@@ -1,9 +1,9 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 int failedTests = 0;
 int tests = 0;
@@ -29,7 +29,7 @@ int main() {
                , remodel, smithy, village, baron, great_hall};
     struct gameState state;
 
-    printf ("TESTING mineAction():\n");
+    printf ("TESTING cardEffect_Mine():\n");
     currentPlayer = 0;
     for (trashCard = province; trashCard <= adventurer; trashCard++)
     {
@@ -42,7 +42,7 @@ int main() {
             result = initializeGame(numPlayer, kingdoms, seed, &state); // initialize a new game
             handCount = state.handCount[currentPlayer];
             discardCount = state.discardCount[currentPlayer];
-            result = mineAction(currentPlayer, trashCard, gainCard, &state, 0);
+            result = cardEffect_Mine(currentPlayer, trashCard, gainCard, &state, 0);
 
             if (trashCard < 4 || trashCard > 6 || gainCard < 4 || gainCard > 6) {
                 expected = -1;
@@ -53,7 +53,7 @@ int main() {
             }
 
 #if (NOISY_TEST == 1)
-            printf("mineAction returned = %d, expected = %d\n", result, expected);
+            printf("cardEffect_Mine returned = %d, expected = %d\n", result, expected);
 #endif
             assertTrue(result == expected); // check if the return value is correct
 

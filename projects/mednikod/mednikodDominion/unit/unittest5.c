@@ -1,9 +1,9 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 int failedTests = 0;
 int tests = 0;
@@ -30,7 +30,7 @@ int main() {
        , remodel, smithy, village, baron, great_hall};
     struct gameState state;
 
-    printf ("TESTING tributeAction():\n");
+    printf ("TESTING cardEffect_Tribute():\n");
     currentPlayer = 0;
     nextPlayer = 1;
 
@@ -44,7 +44,7 @@ int main() {
     state.discardCount[nextPlayer] = 0;
     tributeRevealedCards[0] = -1;
     tributeRevealedCards[1] = -2;
-    result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+    result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected result: 0, actual result: %d\n", result);
@@ -62,7 +62,7 @@ int main() {
     tributeRevealedCards[0] = council_room;
     tributeRevealedCards[1] = -1;
     numActions = state.numActions;
-    result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+    result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected nextPlayer deckCount = 0, actual nextPlayer deckCount = %d\n", state.deckCount[nextPlayer]);
@@ -100,7 +100,7 @@ int main() {
     tributeRevealedCards[0] = gold;
     tributeRevealedCards[1] = -1;
     numCoins = state.coins;
-    result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+    result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected nextPlayer deckCount = 0, actual nextPlayer deckCount = %d\n", state.deckCount[nextPlayer]);
@@ -134,7 +134,7 @@ int main() {
     tributeRevealedCards[1] = sea_hag;
     numActions = state.numActions;
     numCards = state.handCount[currentPlayer];
-    result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+    result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected nextPlayer deckCount = 0, actual nextPlayer deckCount = %d\n", state.deckCount[nextPlayer]);
@@ -172,7 +172,7 @@ int main() {
     tributeRevealedCards[0] = gold;
     tributeRevealedCards[1] = gold;
     numCoins = state.coins;
-    result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+    result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected nextPlayer deckCount = 1, actual nextPlayer deckCount = %d\n", state.deckCount[nextPlayer]);
@@ -205,7 +205,7 @@ int main() {
     tributeRevealedCards[0] = minion;
     tributeRevealedCards[1] = salvager;
     numActions = state.numActions;
-    result = tributeAction(currentPlayer, nextPlayer, tributeRevealedCards, &state);
+    result = cardEffect_Tribute(currentPlayer, nextPlayer, tributeRevealedCards, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected nextPlayer deckCount = 0, actual nextPlayer deckCount = %d\n", state.deckCount[nextPlayer]);

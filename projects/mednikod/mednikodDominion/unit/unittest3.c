@@ -1,9 +1,9 @@
-#include "dominion.h"
-#include "dominion_helpers.h"
+#include "../src/dominion.h"
+#include "../src/dominion_helpers.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "rngs.h"
+#include "../src/rngs.h"
 
 int failedTests = 0;
 int tests = 0;
@@ -30,7 +30,7 @@ int main() {
        , remodel, smithy, village, baron, great_hall};
     struct gameState state;
 
-    printf ("TESTING baronAction():\n");
+    printf ("TESTING cardEffect_Baron():\n");
     currentPlayer = 0;
 
 #if (NOISY_TEST == 1)
@@ -45,7 +45,7 @@ int main() {
     state.handCount[currentPlayer] = 2;
     state.hand[currentPlayer][0] = baron;
     state.hand[currentPlayer][1] = estate;
-    result = baronAction(currentPlayer, doesDiscard, &state);
+    result = cardEffect_Baron(currentPlayer, doesDiscard, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected numBuys = %d, actual numBuys = %d\n", numBuys + 1, state.numBuys);
@@ -63,7 +63,7 @@ int main() {
     assertTrue(numCoins + 4 == state.coins); // check if the return value is correct
 
 #if (NOISY_TEST == 1)
-    printf("baronAction returned = %d, expected = 0\n", result);
+    printf("cardEffect_Baron returned = %d, expected = 0\n", result);
 #endif
     assertTrue(result == 0); // check if the return value is correct
 
@@ -77,7 +77,7 @@ int main() {
     numBuys = state.numBuys;
     state.handCount[currentPlayer] = 1;
     state.hand[currentPlayer][0] = baron;
-    result = baronAction(currentPlayer, doesDiscard, &state);
+    result = cardEffect_Baron(currentPlayer, doesDiscard, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected numBuys = %d, actual numBuys = %d\n", numBuys + 1, state.numBuys);
@@ -95,7 +95,7 @@ int main() {
     assertTrue(estate == state.hand[currentPlayer][1]); // check if the return value is correct
 
 #if (NOISY_TEST == 1)
-    printf("baronAction returned = %d, expected = 0\n", result);
+    printf("cardEffect_Baron returned = %d, expected = 0\n", result);
 #endif
     assertTrue(result == 0); // check if the return value is correct
 
@@ -108,7 +108,7 @@ int main() {
     doesDiscard = false;
     numBuys = state.numBuys;
     handCount = state.handCount[currentPlayer];
-    result = baronAction(currentPlayer, doesDiscard, &state);
+    result = cardEffect_Baron(currentPlayer, doesDiscard, &state);
 
 #if (NOISY_TEST == 1)
     printf("expected numBuys = %d, actual numBuys = %d\n", numBuys + 1, state.numBuys);
@@ -126,7 +126,7 @@ int main() {
     assertTrue(estate == state.hand[currentPlayer][handCount]); // check if the return value is correct
 
 #if (NOISY_TEST == 1)
-    printf("baronAction returned = %d, expected = 0\n", result);
+    printf("cardEffect_Baron returned = %d, expected = 0\n", result);
 #endif
     assertTrue(result == 0); // check if the return value is correct
 
