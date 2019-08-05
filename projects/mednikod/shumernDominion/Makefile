@@ -56,7 +56,7 @@ unittestresults: unittest1 unittest2 unittest3 unittest4 unittest5 unitdominion.
 	unittest1 > $(UNTDIR)/unittestresults.out
 	unittest2 >> $(UNTDIR)/unittestresults.out
 	unittest3 >> $(UNTDIR)/unittestresults.out
-	#unittest4 >> $(UNTDIR)/unittestresults.out
+	unittest4 >> $(UNTDIR)/unittestresults.out
 	unittest5 >> $(UNTDIR)/unittestresults.out
 	gcov unitdominion.c -f -b >> $(UNTDIR)/unittestresults.out
 	cat unitdominion.c.gcov >> $(UNTDIR)/unittestresults.out
