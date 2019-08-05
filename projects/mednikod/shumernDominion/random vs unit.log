@@ -1,0 +1,114 @@
+Unit
+
+Function 'cardEffect_Tribute'
+Lines executed:61.76% of 34
+Branches executed:86.67% of 30
+Taken at least once:63.33% of 30
+Calls executed:66.67% of 3
+
+Function 'tributeAction'
+Lines executed:71.43% of 35
+Branches executed:93.75% of 32
+Taken at least once:65.63% of 32
+Calls executed:66.67% of 3
+
+
+Function 'cardEffect_Minion'
+Lines executed:100.00% of 18
+Branches executed:100.00% of 18
+Taken at least once:88.89% of 18
+Calls executed:100.00% of 6
+
+Function 'minionAction'
+Lines executed:69.23% of 13
+Branches executed:71.43% of 14
+Taken at least once:57.14% of 14
+Calls executed:33.33% of 3
+
+
+Function 'cardEffect_Mine'
+Lines executed:91.67% of 12
+Branches executed:80.00% of 10
+Taken at least once:60.00% of 10
+Calls executed:100.00% of 5
+
+Function 'mineAction'
+Lines executed:100.00% of 12
+Branches executed:100.00% of 14
+Taken at least once:100.00% of 14
+Calls executed:100.00% of 5
+
+
+Function 'cardEffect_Baron'
+Lines executed:90.48% of 21
+Branches executed:100.00% of 10
+Taken at least once:90.00% of 10
+Calls executed:50.00% of 2
+
+Function 'baronAction'
+Lines executed:87.50% of 16
+Branches executed:100.00% of 8
+Taken at least once:87.50% of 8
+Calls executed:66.67% of 3
+
+Function 'cardEffect_Baron_GainEstate'
+Lines executed:85.71% of 7
+Branches executed:100.00% of 4
+Taken at least once:50.00% of 4
+Calls executed:75.00% of 4
+
+
+Function 'cardEffect_Ambassador'
+Lines executed:0.00% of 19
+Branches executed:0.00% of 24
+Taken at least once:0.00% of 24
+Calls executed:0.00% of 3
+
+Function 'ambassadorAction'
+Lines executed:80.00% of 20
+Branches executed:84.62% of 26
+Taken at least once:76.92% of 26
+Calls executed:66.67% of 3
+
+
+
+
+Random
+
+Function 'cardEffect_Tribute'
+Lines executed:82.35% of 34
+Branches executed:93.33% of 30
+Taken at least once:70.00% of 30
+Calls executed:66.67% of 3
+
+Function 'tributeAction'
+Lines executed:82.86% of 35
+Branches executed:93.75% of 32
+Taken at least once:71.88% of 32
+Calls executed:66.67% of 3
+
+
+Function 'cardEffect_Minion'
+Lines executed:100.00% of 18
+Branches executed:100.00% of 18
+Taken at least once:94.44% of 18
+Calls executed:100.00% of 6
+
+Function 'minionAction'
+Lines executed:100.00% of 13
+Branches executed:100.00% of 14
+Taken at least once:92.86% of 14
+Calls executed:100.00% of 3
+
+
+Function 'cardEffect_Baron'
+Lines executed:100.00% of 21
+Branches executed:100.00% of 10
+Taken at least once:100.00% of 10
+Calls executed:100.00% of 2
+
+Function 'baronAction'
+Lines executed:100.00% of 16
+Branches executed:100.00% of 8
+Taken at least once:100.00% of 8
+Calls executed:100.00% of 3
