@@ -130,7 +130,7 @@ public class UrlValidator implements Serializable {
     /**
      * Protocol scheme (e.g. http, ftp, https).
      */
-    private static final String SCHEME_REGEX = "^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*";
+    private static final String SCHEME_REGEX = "^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]{3}";
     private static final Pattern SCHEME_PATTERN = Pattern.compile(SCHEME_REGEX);
 
     // Drop numeric, and  "+-." for now
