@@ -47,8 +47,7 @@ protected void setUp() {
 		   if ((testUrl[0].item.equals("ftp://") || testUrl[0].item.equals("h3t://")) &&
 				   testUrl[1].valid && testUrl[2].valid && testUrl[3].valid && testUrl[4].valid) {
 		    	String url = testUrl[0].item + testUrl[1].item + testUrl[2].item + testUrl[3].item + testUrl[4].item;
-		    	assertTrue(url + " should validate. tests = " + i,
-		                 validator.isValid(url));
+		    	assertTrue(url + " should validate.", validator.isValid(url));
 		   }
 	   }
    }
