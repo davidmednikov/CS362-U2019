@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import java.util.Random;
+
 import junit.framework.TestCase;
 
 /**
@@ -38,6 +40,35 @@ protected void setUp() {
       }
    }
 
+   public void testIsValidForRandomBug() {
+	   for (int i = 0; i < 5000; i++) {
+		   UrlValidator validator = new UrlValidator(); 
+		   ResultPair[] testUrl = getRandomUrl();
+		   if ((testUrl[0].item.equals("ftp://") || testUrl[0].item.equals("h3t://")) &&
+				   testUrl[1].valid && testUrl[2].valid && testUrl[3].valid && testUrl[4].valid) {
+		    	String url = testUrl[0].item + testUrl[1].item + testUrl[2].item + testUrl[3].item + testUrl[4].item;
+		    	assertTrue(url + " should validate. tests = " + i,
+		                 validator.isValid(url));
+		   }
+	   }
+   }
+   
+   public ResultPair[] getRandomUrl() {
+	   Random random = new Random();
+	   ResultPair[] url = new ResultPair[5];
+	   ResultPair scheme = testUrlScheme[random.nextInt(8)];
+	   ResultPair authority = testUrlAuthority[random.nextInt(20)];
+	   ResultPair port = testUrlPort[random.nextInt(9)];
+	   ResultPair path = testPath[random.nextInt(10)];
+	   ResultPair query = testUrlQuery[random.nextInt(3)];
+	   url[0] = scheme;
+	   url[1] = authority;
+	   url[2] = port;
+	   url[3] = path;
+	   url[4] = query;
+	   return url;
+   }
+   
    public void testIsValid() {
         testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
         setUp();
