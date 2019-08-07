@@ -40,7 +40,7 @@ protected void setUp() {
       }
    }
 
-   public void testIsValidForRandomBug() {
+   public void randomTestIsValidForSchemeBug() {
 	   for (int i = 0; i < 5000; i++) {
 		   UrlValidator validator = new UrlValidator(); 
 		   ResultPair[] testUrl = getRandomUrl();
