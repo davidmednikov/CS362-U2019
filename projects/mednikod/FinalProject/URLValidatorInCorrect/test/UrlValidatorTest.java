@@ -44,7 +44,7 @@ protected void setUp() {
 	   for (int i = 0; i < 5000; i++) {
 		   UrlValidator validator = new UrlValidator(); 
 		   ResultPair[] testUrl = getRandomUrl();
-		   if ((testUrl[0].item.equals("ftp://") || testUrl[0].item.equals("h3t://")) &&
+		   if ((testUrl[0].valid && testUrl[0].item.length() != 7) &&
 				   testUrl[1].valid && testUrl[2].valid && testUrl[3].valid && testUrl[4].valid) {
 		    	String url = testUrl[0].item + testUrl[1].item + testUrl[2].item + testUrl[3].item + testUrl[4].item;
 		    	assertTrue(url + " should validate.", validator.isValid(url));
