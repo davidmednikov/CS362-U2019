@@ -16,7 +16,9 @@
  */
 
 import java.util.Random;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 import junit.framework.TestCase;
 
 /**
@@ -40,6 +42,41 @@ protected void setUp() {
       }
    }
 
+   public void testValidatorUnitTest() {
+	   String url = null;
+	   boolean valid = false;
+	   UrlValidator urlVal = new UrlValidator();
+	   
+	   try {
+		   Scanner sc = new Scanner(new File("C:\\Users\\shume\\Documents\\OSU\\CS 362\\UrlList.txt"));
+		   while (sc.hasNext()) {
+			   if (sc.hasNextBoolean() == true) {
+				   valid = sc.nextBoolean();
+			   }
+			   if (sc.hasNext()) {
+				   url = sc.next();
+			   }
+
+		       boolean result = urlVal.isValid(url);
+		       
+			   assertEquals(url, valid, result);
+			   
+		       if (printStatus) {
+		    	   if (result == valid) {
+		    		   System.out.print('.');
+		           } else {
+		        	   System.out.print('X');
+		           }
+		       }			   
+		   }
+		   sc.close();
+		   
+	   } catch (IOException e) {
+		   e.printStackTrace();
+		   System.out.print("\n error reading file ");		   
+	   }
+   }
+   
    public void testIsValidForRandomSchemeBug() {
 	   for (int i = 0; i < 5000; i++) {
 		   UrlValidator validator = new UrlValidator(); 
