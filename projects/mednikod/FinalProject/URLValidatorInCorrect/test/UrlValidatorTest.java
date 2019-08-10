@@ -18,6 +18,8 @@
 import java.util.Random;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import junit.framework.TestCase;
 
@@ -48,7 +50,8 @@ protected void setUp() {
 	   UrlValidator urlVal = new UrlValidator();
 	   
 	   try {
-		   Scanner sc = new Scanner(new File("C:\\Users\\shume\\Documents\\OSU\\CS 362\\UrlList.txt"));
+		   Path currentRelativePath = Paths.get("");
+		   Scanner sc = new Scanner(new File(currentRelativePath.toAbsolutePath().toString() + System.getProperty("file.separator") + "test" + System.getProperty("file.separator") + "UrlList.txt"));
 		   while (sc.hasNext()) {
 			   if (sc.hasNextBoolean() == true) {
 				   valid = sc.nextBoolean();
